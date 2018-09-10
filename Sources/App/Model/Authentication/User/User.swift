@@ -45,3 +45,15 @@ extension User: Validatable {
         return validations
     }
 }
+
+// MARK: PublicRepresentable
+extension User: PublicRepresentable {
+    struct Public: Content {
+        let id: UUID
+        let email: String
+    }
+    
+    func publicRepresentation() throws -> User.Public {
+        return User.Public(id: try requireID(), email: email)
+    }
+}

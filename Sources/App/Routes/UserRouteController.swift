@@ -13,13 +13,14 @@ import Logging
 class UserRouteController: RouteCollection {
     
     private let authController = AuthenticationController()
+    private let userController = UserController()
     
     func boot(router: Router) throws {
         let guardAuthMiddleware = User.guardAuthMiddleware()
         let tokenAuthMiddleware = User.tokenAuthMiddleware()
         
         let usersGroup = router.grouped("users").grouped([tokenAuthMiddleware, guardAuthMiddleware])
-        usersGroup.get(use: fetchAllUsersHandler)
+        usersGroup.get(use: fetchUsersHandler)
         
         let conversationGroup = router.grouped("conversations").grouped(tokenAuthMiddleware, guardAuthMiddleware)
         conversationGroup.get(use: fetchAllConversationsHandler)
@@ -34,8 +35,8 @@ class UserRouteController: RouteCollection {
 //MARK: Helper
 private extension UserRouteController {
     
-    func fetchAllUsersHandler(_ request: Request) throws -> Future<[User]> {
-        return User.query(on: request).all()
+    func fetchUsersHandler(_ request: Request) throws -> Future<[User.Public]> {
+        return try userController.searchForUser(withQuery: request.query, on: request)
     }
     
     func fetchAllConversationsHandler(_ request: Request) throws -> Future<[Conversation]> {
