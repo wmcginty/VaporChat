@@ -39,6 +39,7 @@ private extension ConversationRouteController {
     
     func createConversationHandler(_ request: Request, newConversation: NewConversation) throws -> Future<Conversation> {
         let user: User = try request.requireAuthenticated()
-        return try conversationController.conversation(for: user, with: newConversation.recipients, on: request)
+        let participants = Set([try user.requireID()] + newConversation.recipients)
+        return try conversationController.conversation(with: Array(participants), on: request)
     }
 }

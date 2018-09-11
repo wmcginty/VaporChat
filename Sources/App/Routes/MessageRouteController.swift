@@ -27,7 +27,8 @@ private extension MessageRouteController {
     
     func createNewMessageHandler(_ request: Request, message: NewMessage) throws -> Future<HTTPStatus> {
         let user: User = try request.requireAuthenticated()
-        return try conversationController.conversation(for: user, with: message.recipients, on: request).flatMap { conversation in
+        let recipients = Set([try user.requireID()] + message.recipients)
+        return try conversationController.conversation(with: Array(recipients), on: request).flatMap { conversation in
             
             let newMessage = Message(sender: try user.requireID(), conversationID: try conversation.requireID(), contents: message.contents)
             return newMessage.save(on: request).transform(to: .created)
