@@ -11,8 +11,8 @@ import Fluent
 import FluentSQLite
 
 struct NewMessage: Content {
+    let recipients: [User.ID]
     let contents: String
-    let conversationID: Conversation.ID
 }
 
 struct Message: Content, SQLiteUUIDModel {

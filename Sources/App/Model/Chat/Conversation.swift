@@ -10,7 +10,7 @@ import Vapor
 import FluentSQLite
 
 struct NewConversation: Content {
-    let recipientID: User.ID
+    let recipients: [User.ID]
 }
 
 struct Conversation: Content, SQLiteUUIDModel, Migration {

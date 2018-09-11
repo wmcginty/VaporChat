@@ -10,7 +10,7 @@ import Vapor
 import FluentSQLite
 import Authentication
 
-struct User: Content, SQLiteUUIDModel, Migration {
+struct User: Content, SQLiteUUIDModel, Migration, Hashable {
     
     //MARK: Properties
     var id: UUID?

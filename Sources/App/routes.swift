@@ -8,6 +8,6 @@ import Vapor
 public func routes(_ router: Router) throws {
     let apiGroup = router.grouped("api")
     
-    let routeControllers: [RouteCollection] = [AuthenticationRouteController(), UserRouteController(), ConversationRouteController()]
+    let routeControllers: [RouteCollection] = [AuthenticationRouteController(), UserRouteController(), ConversationRouteController(), MessageRouteController()]
     try routeControllers.forEach { try $0.boot(router: apiGroup) }
 }
