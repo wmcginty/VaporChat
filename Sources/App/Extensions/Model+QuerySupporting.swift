@@ -13,6 +13,8 @@ import FluentPostgreSQL
 extension Model where Database: QuerySupporting {
     
     static func findAll(_ ids: [Self.ID], on conn: DatabaseConnectable) -> Future<[User]> {
-        return User.query(on: conn).filter(idKey ~~ ids).all()
+        return User.query(on: conn).group(.or) { builder in
+            ids.forEach { builder.filter(idKey == $0) }
+        }.all()
     }
 }
