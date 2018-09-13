@@ -5,7 +5,7 @@ language: generic
 sudo: required
 dist: trusty
 
-osx_image: xcode10.0
+osx_image: xcode10
 before_install:
     - if [ $TRAVIS_OS_NAME == "osx" ]; then
             brew install caskroom/cask/vapor;
@@ -21,7 +21,7 @@ before_install:
 script:
     - swift build
     - swift build -c release
-    - swift testå
+    - swift test
 
 #after_success:
 #   - eval "$(curl -sL https://raw.githubusercontent.com/vapor-community/swift/swift-4-codecov/codecov-swift4)"
