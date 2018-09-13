@@ -11,6 +11,8 @@ import Fluent
 import FluentSQLite
 
 struct NewMessage: Content {
+    
+    // MARK: Properties
     let recipients: [User.ID]
     let contents: String
 }

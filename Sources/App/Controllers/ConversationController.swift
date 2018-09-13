@@ -15,6 +15,16 @@ struct ConversationController {
         return try user.conversations.query(on: worker).all()
     }
     
+    func fetchAllConversationOverviews(for user: User, on worker: DatabaseConnectable) throws -> Future<[ConversationOverview]> {
+        return try fetchAllConversations(for: user, on: worker).flatMap { conversations in
+            return try conversations.map { conversation in
+                return try conversation.participants.query(on: worker).all().map {
+                    ConversationOverview(id: conversation.id, participants: try $0.publicRepresentation(), updatedAt: conversation.updatedAt)
+                }
+            }.flatten(on: worker)
+        }
+    }
+    
     func fetchAllMessages(for conversation: Conversation, on worker: DatabaseConnectable) throws -> Future<[Message]> {
         return try conversation.messages.query(on: worker).sort(\.createdAt, .ascending).all()
     }

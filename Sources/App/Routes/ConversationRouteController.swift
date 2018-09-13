@@ -19,6 +19,7 @@ struct ConversationRouteController: RouteCollection {
         
         let conversationGroup = router.grouped("conversations").grouped(tokenAuthMiddleware, guardAuthMiddleware)
         conversationGroup.get(use: fetchAllConversationsHandler)
+        conversationGroup.get("overviews", use: fetchAllConversationOverviewsHandler)
         conversationGroup.get(Conversation.parameter, "messages", use: fetchMessagesInConversationHandler)
         conversationGroup.get(Conversation.parameter, "participants", use: fetchParticipantsInConversationHandler)
     }
@@ -29,6 +30,10 @@ private extension ConversationRouteController {
     
     func fetchAllConversationsHandler(_ request: Request) throws -> Future<[Conversation]> {
         return try conversationController.fetchAllConversations(for: try request.requireAuthenticated(), on: request)
+    }
+    
+    func fetchAllConversationOverviewsHandler(_ request: Request) throws -> Future<[ConversationOverview]> {
+        return try conversationController.fetchAllConversationOverviews(for: try request.requireAuthenticated(), on: request)
     }
     
     func fetchMessagesInConversationHandler(_ request: Request) throws -> Future<[Message]> {

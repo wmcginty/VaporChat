@@ -14,6 +14,8 @@ struct NewConversation: Content {
 }
 
 struct Conversation: Content, SQLiteUUIDModel, Migration {
+    
+    // MARK: Properties
     var id: UUID?
     
     // MARK: Messages

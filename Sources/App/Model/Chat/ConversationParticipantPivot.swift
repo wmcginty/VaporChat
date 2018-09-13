@@ -21,6 +21,7 @@ final class ConversationParticipantPivot: SQLiteUUIDPivot, ModifiablePivot {
     static let leftIDKey: LeftIDKey = \.userID
     static let rightIDKey: RightIDKey = \.conversationID
 
+    // MARK: Initializers
     init(_ user: User, _ conversation: Conversation) throws {
         self.userID = try user.requireID()
         self.conversationID = try conversation.requireID()
