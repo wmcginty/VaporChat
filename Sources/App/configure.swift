@@ -1,5 +1,5 @@
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 import Authentication
 
 /// Called before your application initializes.
@@ -21,24 +21,37 @@ public func configure(
     services.register(directoryConfig)
     
     // Configure Fluents SQL provider
-    try services.register(FluentSQLiteProvider())
+    try services.register(FluentPostgreSQLProvider())
     
     // Configure the authentication provider
     try services.register(AuthenticationProvider())
     
-    // Configure our database
-    var databaseConfig = DatabasesConfig()
-    let db = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)auth.db"))
-    databaseConfig.add(database: db, as: .sqlite)
-    services.register(databaseConfig)
+    // Configure our databasep
+    if let databaseConfig = try configuredPostgreSQLDatabaseConfig(with: env) {
+        var databases = DatabasesConfig()
+        let database = PostgreSQLDatabase(config: databaseConfig)
+        databases.add(database: database, as: .psql)
+        services.register(databases)
+    }
     
     // Configure our model migrations
     var migrationConfig = MigrationConfig()
-    migrationConfig.add(model: User.self, database: .sqlite)
-    migrationConfig.add(model: AccessToken.self, database: .sqlite)
-    migrationConfig.add(model: RefreshToken.self, database: .sqlite)
-    migrationConfig.add(model: Conversation.self, database: .sqlite)
-    migrationConfig.add(model: Message.self, database: .sqlite)
-    migrationConfig.add(model: ConversationParticipantPivot.self, database: .sqlite)
+    migrationConfig.add(model: User.self, database: .psql)
+    migrationConfig.add(model: AccessToken.self, database: .psql)
+    migrationConfig.add(model: RefreshToken.self, database: .psql)
+    migrationConfig.add(model: Conversation.self, database: .psql)
+    migrationConfig.add(model: Message.self, database: .psql)
+    migrationConfig.add(model: ConversationParticipantPivot.self, database: .psql)
     services.register(migrationConfig)
+}
+
+func configuredPostgreSQLDatabaseConfig(with env: Environment) throws -> PostgreSQLDatabaseConfig? {
+    guard let url = Environment.get("DATABASE_URL") else {
+        return PostgreSQLDatabaseConfig(hostname: "localhost",
+                                        port: 5432,
+                                        username: "willmcginty",
+                                        database: "chat")
+    }
+    
+    return PostgreSQLDatabaseConfig(url: url)
 }

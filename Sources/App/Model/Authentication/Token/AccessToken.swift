@@ -7,11 +7,11 @@
 
 import Foundation
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 import Crypto
 import Authentication
 
-struct AccessToken: Content, SQLiteUUIDModel, Migration {
+struct AccessToken: Content, PostgreSQLUUIDModel, Migration {
     typealias Token = String
     
     //MARK: Constants

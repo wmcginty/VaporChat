@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 import Fluent
-import FluentSQLite
+import FluentPostgreSQL
 
 struct NewMessage: Content {
     
@@ -17,7 +17,7 @@ struct NewMessage: Content {
     let contents: String
 }
 
-struct Message: Content, SQLiteUUIDModel {
+struct Message: Content, PostgreSQLUUIDModel {
     
     // MARK: Properties
     var id: UUID?
@@ -50,7 +50,7 @@ struct Message: Content, SQLiteUUIDModel {
 // MARK: Migration
 extension Message: Migration {
     
-    static func prepare(on connection: SQLiteConnection) -> Future<Void> {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
         return Database.create(self, on: connection) { builder in
             try addProperties(to: builder)
             builder.reference(from: \.senderID, to: User.idKey)

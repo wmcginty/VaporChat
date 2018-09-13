@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 import Fluent
-import FluentSQLite
+import FluentPostgreSQL
 import Crypto
 
 struct AuthenticationController {

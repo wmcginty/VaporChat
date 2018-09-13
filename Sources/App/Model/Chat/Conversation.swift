@@ -7,13 +7,13 @@
 
 import Foundation
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 
 struct NewConversation: Content {
     let recipients: [User.ID]
 }
 
-struct Conversation: Content, SQLiteUUIDModel, Migration {
+struct Conversation: Content, PostgreSQLUUIDModel, Migration {
     
     // MARK: Properties
     var id: UUID?

@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import FluentSQLite
+import FluentPostgreSQL
 
-final class ConversationParticipantPivot: SQLiteUUIDPivot, ModifiablePivot {
+final class ConversationParticipantPivot: PostgreSQLUUIDPivot, ModifiablePivot {
     
     // MARK: Properties
     var id: UUID?
@@ -31,7 +31,7 @@ final class ConversationParticipantPivot: SQLiteUUIDPivot, ModifiablePivot {
 // MARK: Migration
 extension ConversationParticipantPivot: Migration {
     
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
+    static func prepare(on conn: PostgreSQLConnection) -> Future<Void> {
         return Database.create(self, on: conn) { builder in
             try addProperties(to: builder)
             
