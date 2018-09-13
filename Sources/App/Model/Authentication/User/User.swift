@@ -10,7 +10,7 @@ import Vapor
 import FluentPostgreSQL
 import Authentication
 
-struct User: Content, PostgreSQLUUIDModel, Migration, Hashable {
+struct User: Content, PostgreSQLUUIDModel, Migration {
     
     //MARK: Properties
     var id: UUID?
