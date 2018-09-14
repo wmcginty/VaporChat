@@ -1,6 +1,7 @@
 import Vapor
 import FluentPostgreSQL
 import Authentication
+import UrbanVapor
 
 /// Called before your application initializes.
 ///
@@ -32,6 +33,12 @@ public func configure(
         let database = PostgreSQLDatabase(config: databaseConfig)
         databases.add(database: database, as: .psql)
         services.register(databases)
+    }
+    
+    //Configure push
+    if let key = Environment.get("UA_KEY"), let secret = Environment.get("UA_SECRET") {
+        let urbanVaporProvider = UrbanVaporProvider(key: key, secret: secret)
+        try services.register(urbanVaporProvider)
     }
     
     // Configure our model migrations
