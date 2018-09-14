@@ -164,6 +164,15 @@
         }
       },
       {
+        "package": "UrbanVapor",
+        "repositoryURL": "https://github.com/wmcginty/urbanvapor.git",
+        "state": {
+          "branch": null,
+          "revision": "cbabbe2f67e159967516401130eb01b328c04022",
+          "version": "0.0.5"
+        }
+      },
+      {
         "package": "URLEncodedForm",
         "repositoryURL": "https://github.com/vapor/url-encoded-form.git",
         "state": {
