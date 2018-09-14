@@ -12,6 +12,7 @@ import Fluent
 struct MessageRouteController: RouteCollection {
     
     private let conversationController = ConversationController()
+    private let messageController = MessageController()
     
     func boot(router: Router) throws {
         let guardAuthMiddleware = User.guardAuthMiddleware()
@@ -30,8 +31,7 @@ private extension MessageRouteController {
         let recipients = Set([try user.requireID()] + message.recipients)
         
         return try conversationController.conversation(with: Array(recipients), on: request).flatMap { conversation in
-            let newMessage = Message(sender: try user.requireID(), conversationID: try conversation.requireID(), contents: message.contents)
-            return newMessage.save(on: request).transform(to: .created)
+            return try self.messageController.postNewMessage(message: message, from: user, to: conversation, with: request)
         }
     }
 }
