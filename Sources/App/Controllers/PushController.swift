@@ -16,8 +16,8 @@ struct PushController {
         
         return User.findAll(recipients, on: worker).flatMap { users in
             return try users.map {
-                let notification = UrbanVapor.Notification(alert: "New Message", title: message.contents)
-                let push = Push(audience: Audience(namedUser: $0.email), notification: notification, deviceTypes: .all)
+                let notification = UrbanVapor.Notification(alert: message.contents)
+                let push = Push(audience: Audience(namedUser: $0.email), notification: notification, deviceTypes: DeviceTypes(deviceTypes: .ios))
                 return try urbanService.send(push, on: client).transform(to: Void())
             }.flatten(on: worker).transform(to: .created)
         }
