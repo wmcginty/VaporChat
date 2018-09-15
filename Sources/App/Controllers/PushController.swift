@@ -18,7 +18,13 @@ struct PushController {
             return try users.map {
                 let notification = UrbanVapor.Notification(alert: message.contents)
                 let push = Push(audience: Audience(namedUser: $0.email), notification: notification, deviceTypes: DeviceTypes(deviceTypes: .ios))
-                return try urbanService.send(push, on: client).transform(to: Void())
+                
+                return try urbanService.send(push, on: client).map { response in
+                    let logger = try worker.make(Logger.self)
+                    logger.info(String(describing: response.http.status))
+                    logger.info(String(describing: response.http.body))
+                    return
+                }
             }.flatten(on: worker).transform(to: .created)
         }
     }
