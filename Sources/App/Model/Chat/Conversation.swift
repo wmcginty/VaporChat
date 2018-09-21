@@ -13,13 +13,15 @@ struct NewConversation: Content {
     let recipients: [User.ID]
 }
 
-struct Conversation: Content, PostgreSQLUUIDModel, Migration {
+struct Conversation: Content, PostgreSQLUUIDModel, Migration, Parameter {
     
     // MARK: Properties
     var id: UUID?
+    
     var messages: Children<Conversation, Message> {
         return children(\.conversationID)
     }
+    
     var participants: Siblings<Conversation, User, ConversationParticipantPivot> {
         return siblings()
     }
@@ -31,6 +33,3 @@ struct Conversation: Content, PostgreSQLUUIDModel, Migration {
     private(set) var updatedAt: Date?
     static var updatedAtKey: TimestampKey? { return \.updatedAt }
 }
-
-// MARK: Parameter
-extension Conversation: Parameter { }

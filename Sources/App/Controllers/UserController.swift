@@ -25,5 +25,4 @@ struct UserController {
         let page = queryContainer.pageInformation()
         return try userQuery.paged(to: page).all().publicRepresentation()
     }
-    
 }

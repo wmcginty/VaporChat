@@ -36,7 +36,6 @@ struct User: Content, PostgreSQLUUIDModel, Migration, Parameter {
 
 //MARK: BasicAuthenticatable
 extension User: BasicAuthenticatable {
-    
     static let usernameKey: WritableKeyPath<User, String> = \.email
     static let passwordKey: WritableKeyPath<User, String> = \.password
 }
@@ -48,7 +47,6 @@ extension User: TokenAuthenticatable {
 
 //MARK: Validatable
 extension User: Validatable {
-    
     static func validations() throws -> Validations<User> {
         var validations = Validations(User.self)
         validations.add(\.email, at: [], .email)

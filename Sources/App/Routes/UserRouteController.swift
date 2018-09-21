@@ -21,7 +21,6 @@ class UserRouteController: RouteCollection {
         
         let usersGroup = router.grouped("users").grouped([tokenAuthMiddleware, guardAuthMiddleware])
         usersGroup.get(use: fetchUsersHandler)
-        usersGroup.get("testpush", User.parameter, use: testPushHandler)
     }
 }
 
@@ -30,12 +29,6 @@ private extension UserRouteController {
     
     func fetchUsersHandler(_ request: Request) throws -> Future<[User.Public]> {
         return try userController.searchForUser(withQuery: request.query, on: request)
-    }
-    
-    func testPushHandler(_ request: Request) throws -> Future<HTTPStatus> {
-        return try request.parameters.next(User.self).flatMap { user in
-            return try PushController().sendTestPush(to: user, with: request)
-        }
     }
 }
 

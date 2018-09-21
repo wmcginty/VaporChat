@@ -24,6 +24,7 @@ struct Message: Content, PostgreSQLUUIDModel {
     let contents: String
     let senderID: User.ID
     let conversationID: Conversation.ID
+    
     var sender: Parent<Message, User> {
         return parent(\.senderID)
     }

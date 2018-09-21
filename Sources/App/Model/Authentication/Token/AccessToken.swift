@@ -33,7 +33,6 @@ struct AccessToken: Content, PostgreSQLUUIDModel, Migration {
 
 //MARK: BearerAuthenticatable
 extension AccessToken: BearerAuthenticatable {
-    
     static let tokenKey: WritableKeyPath<AccessToken, String> = \.tokenString
     
     public static func authenticate(using bearer: BearerAuthorization, on connection: DatabaseConnectable) -> Future<AccessToken?> {
@@ -48,7 +47,6 @@ extension AccessToken: BearerAuthenticatable {
 
 //MARK: Authentication.Token
 extension AccessToken: Token {
-    
     typealias UserType = User
     static var userIDKey: WritableKeyPath<AccessToken, UUID> = \.userID
 }

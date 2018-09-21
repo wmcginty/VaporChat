@@ -27,7 +27,6 @@ extension QueryContainer {
 
 //MARK: Paging
 extension QueryBuilder {
-    
     func paged(to page: QueryContainer.Page) -> Self {
         return self.range(page.range)
     }

@@ -16,7 +16,6 @@ struct AuthenticationRouteController: RouteCollection {
     private let authController = AuthenticationController()
     
     func boot(router: Router) throws {
-
         router.post(User.self, at: "login", use: loginUserHandler)
         router.post(User.self, at: "register", use: registerUserHandler)
         
