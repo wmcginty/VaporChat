@@ -8,7 +8,6 @@
 import Vapor
 import Fluent
 import Crypto
-import Logging
 
 class UserRouteController: RouteCollection {
     
