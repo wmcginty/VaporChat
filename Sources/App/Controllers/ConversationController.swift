@@ -26,7 +26,10 @@ struct ConversationController {
     }
     
     func fetchAllMessages(for conversation: Conversation, on worker: DatabaseConnectable) throws -> Future<[Message]> {
-        return try conversation.messages.query(on: worker).sort(\.createdAt, .ascending).all()
+        return try conversation.messages.query(on: worker).sort(\.createdAt, .ascending).all().map {
+            print($0)
+            return $0
+        }
     }
     
     func fetchAllParticipants(for conversation: Conversation, on worker: DatabaseConnectable) throws -> Future<[User.Public]> {

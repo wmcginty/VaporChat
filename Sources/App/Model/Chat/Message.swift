@@ -24,19 +24,16 @@ struct Message: Content, PostgreSQLUUIDModel {
     let contents: String
     let senderID: User.ID
     let conversationID: Conversation.ID
-
-    // MARK: Sender
     var sender: Parent<Message, User> {
         return parent(\.senderID)
     }
     
-    // MARK: Conversation
     var conversation: Parent<Message, Conversation> {
         return parent(\.conversationID)
     }
     
     // MARK: Timestampable
-    private(set) var createdAt: Date?
+    internal private(set) var createdAt: Date?
     static var createdAtKey: TimestampKey { return \.createdAt }
     
     // MARK: Initializers

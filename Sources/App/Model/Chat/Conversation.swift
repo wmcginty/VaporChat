@@ -17,13 +17,9 @@ struct Conversation: Content, PostgreSQLUUIDModel, Migration {
     
     // MARK: Properties
     var id: UUID?
-    
-    // MARK: Messages
     var messages: Children<Conversation, Message> {
         return children(\.conversationID)
     }
-    
-    // MARK: Participants
     var participants: Siblings<Conversation, User, ConversationParticipantPivot> {
         return siblings()
     }
