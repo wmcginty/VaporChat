@@ -17,9 +17,20 @@ struct User: Content, PostgreSQLUUIDModel, Migration, Parameter {
     private(set) var email: String
     private(set) var password: String
     
+    // MARK: Timestampable
+    private(set) var createdAt: Date?
+    static var createdAtKey: TimestampKey? { return \.createdAt }
+    
     //MARK: Conversations
     var conversations: Siblings<User, Conversation, ConversationParticipantPivot> {
         return siblings()
+    }
+    
+    // MARK: Initializers
+    init(id: UUID? = nil, email: String, password: String) {
+        self.id = id
+        self.email = email
+        self.password = password
     }
 }
 

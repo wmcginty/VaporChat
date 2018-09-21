@@ -15,7 +15,6 @@ protocol PublicRepresentable {
 
 // MARK: Convenience Extensions
 extension Future where T: PublicRepresentable {
-    
     func publicRepresentation() throws -> Future<T.PublicRepresentationType> {
         return map { try $0.publicRepresentation() }
     }

@@ -33,8 +33,8 @@ struct Message: Content, PostgreSQLUUIDModel {
     }
     
     // MARK: Timestampable
-    internal private(set) var createdAt: Date?
-    static var createdAtKey: TimestampKey { return \.createdAt }
+    private(set) var createdAt: Date?
+    static var createdAtKey: TimestampKey? { return \.createdAt }
     
     // MARK: Initializers
     init(sender: User.ID, conversationID: Conversation.ID, contents: String) {
