@@ -20,7 +20,6 @@
 </p>
 
 TODO
-* Fix the createdAt/updatedAt dates not updating for messages/conversations
 * Test the usage of 3+ participant conversations
 * Support WebSockets when the client applications are open
 * Tighten up the push notification success rate
