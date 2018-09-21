@@ -19,10 +19,7 @@ struct PushController {
             let recipientUsers = users.filter { $0.id != message.senderID }
             return try recipientUsers.map {
                 let push = self.newMessagePayload(for: message, from: sender, to: $0, in: conversation, with: worker)
-                return try urbanService.send(push, on: worker).map { response in
-                    guard response.http.status == .created else { throw Abort(response.http.status) }
-                    return Void()
-                }
+                return try urbanService.send(push, on: worker).transform(to: Void())
             }.flatten(on: worker).transform(to: .created)
         }
     }
